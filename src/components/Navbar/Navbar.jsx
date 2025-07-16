@@ -1,137 +1,120 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../assets/logo.png";
 import { IoMdSearch } from "react-icons/io";
 import { FaCartShopping } from "react-icons/fa6";
-import { FaCaretDown } from "react-icons/fa";
-import DarkMode from "./DarkMode";
+import { HiMenuAlt3 } from "react-icons/hi";
+import { IoClose } from "react-icons/io5";
+import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../../context/CreateContext";
 
-const Menu = [
-  {
-    id: 1,
-    name: "Home",
-    link: "/#",
-  },
-  {
-    id: 2,
-    name: "Top Rated",
-    link: "/#services",
-  },
-  {
-    id: 3,
-    name: "Kids Wear",
-    link: "/#",
-  },
-  {
-    id: 3,
-    name: "Mens Wear",
-    link: "/#",
-  },
-  {
-    id: 3,
-    name: "Electronics",
-    link: "/#",
-  },
-];
+const Navbar = ({ setSearch }) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const { cartItems } = useCart();
+  const navigate = useNavigate();
 
-const DropdownLinks = [
-  {
-    id: 1,
-    name: "Trending Products",
-    link: "/#",
-  },
-  {
-    id: 2,
-    name: "Best Selling",
-    link: "/#",
-  },
-  {
-    id: 3,
-    name: "Top Rated",
-    link: "/#",
-  },
-];
+  const handleSearch = (e) => {
+    if (e.key === "Enter") {
+      setSearch(searchInput);
+      
+    }
+  };
 
-const Navbar = ({ handleOrderPopup }) => {
+  const Menu = [
+    { id: 1, name: "Home", link: "/" },
+    { id: 2, name: "Top Rated", link: "/top-rated" },
+    { id: 3, name: "Mens Wear", link: "/mens-wear" },
+    { id: 4, name: "Womens Wear", link: "/womens-wear" },
+  ];
+
+  const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+
   return (
-    <div className="shadow-md bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40">
-      {/* upper Navbar */}
-      <div className="bg-primary/40 py-2">
-        <div className="container flex justify-between items-center">
-          <div>
-            <a href="#" className="font-bold text-2xl sm:text-3xl flex gap-2">
-              <img src={Logo} alt="Logo" className="w-10" />
-              Shopsy
-            </a>
-          </div>
+    <header className="shadow-md bg-white text-black z-50 sticky top-0 w-full">
+      <div className="bg-primary/10 py-3">
+        <div className="container mx-auto flex items-center justify-between px-4">
+          <Link to="/" className="flex items-center gap-2 text-2xl font-semibold">
+            <img src={Logo} alt="logo" className="w-10 h-10 object-contain" />
+            <span className="text-gray-900">Shopify</span>
+          </Link>
 
-          {/* search bar */}
-          <div className="flex justify-between items-center gap-4">
-            <div className="relative group hidden sm:block">
+          <div className="flex items-center gap-4">
+            {/* Search Bar */}
+            <div className="relative group">
               <input
                 type="text"
-                placeholder="search"
-                className="w-[200px] sm:w-[200px] group-hover:w-[300px] transition-all duration-300 rounded-full border border-gray-300 px-2 py-1 focus:outline-none focus:border-1 focus:border-primary dark:border-gray-500 dark:bg-gray-800  "
+                placeholder="Search"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                onKeyDown={handleSearch}
+                className="w-[120px] sm:w-[150px] group-hover:w-[140px] sm:group-hover:w-[260px] transition-all duration-300 border border-gray-300 rounded-full px-4 py-1 text-sm bg-white focus:outline-none"
               />
-              <IoMdSearch className="text-gray-500 group-hover:text-primary absolute top-1/2 -translate-y-1/2 right-3" />
+              <IoMdSearch className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500 group-hover:text-primary" />
             </div>
 
-            {/* order button */}
-            <button
-              onClick={() => handleOrderPopup()}
-              className="bg-gradient-to-r from-primary to-secondary transition-all duration-200 text-white  py-1 px-4 rounded-full flex items-center gap-3 group"
+            {/* Cart */}
+            <Link
+              to="/cart"
+              className="bg-gradient-to-r from-[#d4af37] to-[#c29200] hover:scale-105 transition-all duration-200 text-white py-1.5 px-3 md:px-4 rounded-full flex items-center gap-2 shadow-sm relative"
             >
-              <span className="group-hover:block hidden transition-all duration-200">
-                Order
-              </span>
-              <FaCartShopping className="text-xl text-white drop-shadow-sm cursor-pointer" />
-            </button>
+              <span className="hidden sm:block font-medium">Cart</span>
+              <FaCartShopping className="text-lg" />
+              {totalQuantity > 0 && (
+                <span className="absolute -top-1 -right-1 bg-white text-[#c29200] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-md">
+                  {totalQuantity}
+                </span>
+              )}
+            </Link>
 
-            {/* Darkmode Switch */}
-            <div>
-              <DarkMode />
+            {/* Hamburger */}
+            <div className="sm:hidden">
+              {mobileMenuOpen ? (
+                <IoClose className="text-2xl cursor-pointer" onClick={() => setMobileMenuOpen(false)} />
+              ) : (
+                <HiMenuAlt3 className="text-2xl cursor-pointer" onClick={() => setMobileMenuOpen(true)} />
+              )}
             </div>
           </div>
         </div>
       </div>
-      {/* lower Navbar */}
-      <div data-aos="zoom-in" className="flex justify-center">
-        <ul className="sm:flex hidden items-center gap-4">
-          {Menu.map((data) => (
-            <li key={data.id}>
-              <a
-                href={data.link}
-                className="inline-block px-4 hover:text-primary duration-200"
-              >
-                {data.name}
-              </a>
-            </li>
-          ))}
-          {/* Simple Dropdown and Links */}
-          <li className="group relative cursor-pointer">
-            <a href="#" className="flex items-center gap-[2px] py-2">
-              Trending Products
-              <span>
-                <FaCaretDown className="transition-all duration-200 group-hover:rotate-180" />
-              </span>
-            </a>
-            <div className="absolute z-[9999] hidden group-hover:block w-[200px] rounded-md bg-white p-2 text-black shadow-md">
-              <ul>
-                {DropdownLinks.map((data) => (
-                  <li key={data.id}>
-                    <a
-                      href={data.link}
-                      className="inline-block w-full rounded-md p-2 hover:bg-primary/20 "
-                    >
-                      {data.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
+
+      {/* Desktop Menu */}
+      <nav className="bg-white border-t border-gray-200 hidden sm:block">
+        <div className="container mx-auto flex justify-center px-4 py-3">
+          <ul className="flex items-center gap-6 text-sm font-medium">
+            {Menu.map((item) => (
+              <li key={item.id}>
+                <Link
+                  to={item.link}
+                  className="text-gray-700 hover:text-[#d4af37] transition-all duration-200"
+                >
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="sm:hidden bg-white px-6 py-5 border-t border-gray-200 shadow-md animate-slideDown">
+          <ul className="flex flex-col gap-4 text-sm font-semibold">
+            {Menu.map((item) => (
+              <li key={item.id}>
+                <Link
+                  to={item.link}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block text-gray-800 hover:text-[#d4af37] transition-all"
+                >
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </header>
   );
 };
 

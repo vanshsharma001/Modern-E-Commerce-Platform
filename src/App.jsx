@@ -1,45 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+// Routing
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// Pages & Components
 import Navbar from "./components/Navbar/Navbar";
 import Hero from "./components/Hero/Hero";
 import Products from "./components/Products/Products";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import TopProducts from "./components/TopProducts/TopProducts";
+import TopProducts from "./pages/TopRated";
 import Banner from "./components/Banner/Banner";
 import Subscribe from "./components/Subscribe/Subscribe";
 import Testimonials from "./components/Testimonials/Testimonials";
 import Footer from "./components/Footer/Footer";
-import Popup from "./components/Popup/Popup";
+import CartPage from "./pages/CartPage";
+import TopRated from "./pages/TopRated";
+import MensWear from "./pages/MensWear";
+import WomensWear from "./pages/WomensWear";
 
 const App = () => {
-  const [orderPopup, setOrderPopup] = React.useState(false);
+  const [search, setSearch] = useState("");
 
-  const handleOrderPopup = () => {
-    setOrderPopup(!orderPopup);
-  };
-  React.useEffect(() => {
+  useEffect(() => {
     AOS.init({
       offset: 100,
       duration: 800,
       easing: "ease-in-sine",
       delay: 100,
+      once: true,
     });
-    AOS.refresh();
   }, []);
 
   return (
-    <div className="bg-white dark:bg-gray-900 dark:text-white duration-200">
-      <Navbar handleOrderPopup={handleOrderPopup} />
-      <Hero handleOrderPopup={handleOrderPopup} />
-      <Products />
-      <TopProducts handleOrderPopup={handleOrderPopup} />
-      <Banner />
-      <Subscribe />
-      <Products />
-      <Testimonials />
-      <Footer />
-      <Popup orderPopup={orderPopup} setOrderPopup={setOrderPopup} />
-    </div>
+    <BrowserRouter>
+      <main className="bg-white text-gray-900 duration-200 scroll-smooth">
+        <Navbar setSearch={setSearch} />
+
+        <Routes>
+          {/* Homepage */}
+          <Route
+            path="/"
+            element={
+              <>
+                <Hero />
+                <section id="products">
+                  <Products search={search} />
+                  <TopProducts />
+                </section>
+                <Banner />
+                <Subscribe />
+                <Testimonials />
+                <Footer />
+              </>
+            }
+          />
+
+          {/* Other Pages */}
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/top-rated" element={<TopRated />} />
+          <Route path="/mens-wear" element={<MensWear />} />
+          <Route path="/womens-wear" element={<WomensWear />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
   );
 };
 
