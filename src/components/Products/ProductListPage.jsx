@@ -10,7 +10,7 @@ const ProductListPage = ({ title, products, search = "" }) => {
     .filter((item) => item.title.toLowerCase().includes(search.toLowerCase()))
     .filter((item) => (genderFilter ? item.category === genderFilter : true))
     .sort((a, b) => {
-      if (sort === "price") return a.price - b.price;
+      if (sort === "price") return a.discount - b.discount;
       if (sort === "rating") return b.rating - a.rating;
       return 0;
     });

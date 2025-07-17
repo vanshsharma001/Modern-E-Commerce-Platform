@@ -17,10 +17,10 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <img src={footerLogo} alt="logo" className="w-12 h-12" />
-              <h1 className="text-2xl font-semibold tracking-wide">Shopsy</h1>
+              <h1 className="text-2xl font-semibold tracking-wide">Shopify</h1>
             </div>
             <p className="text-gray-300 leading-relaxed text-sm">
-              Discover elegance in every thread. Shopsy brings you the finest in
+              Discover elegance in every thread. Shopify brings you the finest in
               style and comfort, curated just for you.
             </p>
           </div>

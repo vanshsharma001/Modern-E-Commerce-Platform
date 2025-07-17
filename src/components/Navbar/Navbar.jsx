@@ -30,7 +30,7 @@ const Navbar = ({ setSearch }) => {
   const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <header className="shadow-md bg-white text-black z-50 sticky top-0 w-full">
+    <header className="shadow-md bg-white text-black z-50   w-full">
       <div className="bg-primary/10 py-3">
         <div className="container mx-auto flex items-center justify-between px-4">
           <Link to="/" className="flex items-center gap-2 text-2xl font-semibold">

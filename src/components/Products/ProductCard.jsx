@@ -3,12 +3,12 @@ import { FaStar, FaHeart } from "react-icons/fa";
 import { FaCartPlus } from "react-icons/fa6";
 import { useCart } from "../../context/CreateContext";
 
-const ProductCard = ({ img, title, rating, color, price, discount, id, aosDelay }) => {
+const ProductCard = ({ img, title, rating, color, price, oldprice, id, aosDelay }) => {
   const { addToCart } = useCart();
   const [showMessage, setShowMessage] = useState(false);
 
   const handleCartClick = () => {
-    addToCart({ img, title, rating, color, price, discount, id });
+    addToCart({ img, title, rating, color, price, oldprice, id });
     setShowMessage(true);
     setTimeout(() => setShowMessage(false), 700);
   };
@@ -56,10 +56,8 @@ const ProductCard = ({ img, title, rating, color, price, discount, id, aosDelay 
       <div className="block md:hidden mt-2 px-3">
         <button
           onClick={handleCartClick}
-          className={`w-full flex justify-center items-center gap-2 py-1 text-sm font-semibold rounded-md 
-  ${showMessage ? 'bg-[#d4af37] text-white' : 'bg-[#f9f3e6] text-[#c29200]'} 
-  active:bg-[#d4af37] active:text-white 
-  transition-all duration-300`}
+          className={`w-full flex justify-center items-center gap-2 py-1 text-sm font-semibold rounded-md bg-gradient-to-r from-[#d4af37] to-[#c29200] text-white
+`}
  >
           <FaCartPlus className="text-sm" />
           Add to Cart
@@ -77,8 +75,8 @@ const ProductCard = ({ img, title, rating, color, price, discount, id, aosDelay 
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[#016c0f] font-semibold text-[15px]">₹{discount}</span>
-          <span className="line-through text-gray-500 text-sm">₹{price}</span>
+          <span className="text-[#016c0f] font-semibold text-[15px]">₹{price}</span>
+          <span className="line-through text-gray-500 text-sm">₹{oldprice}</span>
         </div>
       </div>
     </div>
