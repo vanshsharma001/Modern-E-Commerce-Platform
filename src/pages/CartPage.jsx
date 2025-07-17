@@ -10,7 +10,7 @@ const CartPage = () => {
   };
 
   const totalPrice = cartItems.reduce((acc, item) => {
-    const price = parseFloat(item.discount) || 0;
+    const price = parseFloat(item.price) || 0;
     const quantity = parseInt(item.quantity) || 0;
     return acc + price * quantity;
   }, 0);
@@ -49,7 +49,7 @@ const CartPage = () => {
                         Color: {item.color}
                       </p>
                       <p className="text-sm text-[#016c0f] font-medium">
-                        ₹{item.discount}
+                        ₹{item.price}
                       </p>
                       <div className="flex items-center gap-2 mt-2">
                         <button

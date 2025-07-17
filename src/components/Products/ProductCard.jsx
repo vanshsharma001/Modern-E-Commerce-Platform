@@ -56,7 +56,7 @@ const ProductCard = ({ img, title, rating, color, price, oldprice, id, aosDelay 
       <div className="block md:hidden mt-2 px-3">
         <button
           onClick={handleCartClick}
-          className={`w-full flex justify-center items-center gap-2 py-1 text-sm font-semibold rounded-md bg-gradient-to-r from-[#d4af37] to-[#c29200] text-white
+          className={`w-full flex justify-center items-center gap-2 py-1 text-sm font-semibold rounded-md bg-gradient-to-r from-[#d4af37a2] to-[#c292009c] text-white
 `}
  >
           <FaCartPlus className="text-sm" />

@@ -25,7 +25,7 @@ const TopRated = () => {
 
 
   if (sort === "price") {
-    topRatedItems.sort((a, b) => a.discount - b.discount);
+    topRatedItems.sort((a, b) => a.price - b.price);
   } else if (sort === "rating") {
     topRatedItems.sort((a, b) => b.rating - a.rating);
   }
